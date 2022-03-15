@@ -45,6 +45,18 @@ provider:
 #            - "Ref" : "ServerlessDeploymentBucket"
 #            - "/*"
 
+  iam: 
+    role:   
+      statements: 
+        - Effect: Allow
+          Action: 
+            "dynamodb:PutItem"
+            "dynamodb:GetItem"
+            "dynamodb:DeleteItem"
+            "dynamodb:Scan"
+          Resource:
+            - {"Fn::GetAtt": ["TodosTable", {"Arn"}]}
+
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
@@ -103,13 +115,18 @@ functions:
 plugins:
   - serverless-plugin-typescript
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+  Resources:
+    TodosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Todos
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
