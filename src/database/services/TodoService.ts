@@ -46,4 +46,13 @@ class TodoService {
 
     return updated.Attributes as Todo;
   }
+
+  async deleteTodo(id: string) {
+    return await this.docClient
+      .delete({
+        TableName: this.tableName,
+        Key: { id },
+      })
+      .promise();
+  }
 }
