@@ -7,7 +7,11 @@ class TodoService {
     await this.docClient
       .put({
         TableName: this.tableName,
-        Item: item,
+        Item: {
+          ...item,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
       })
       .promise();
     return item;
@@ -48,7 +52,7 @@ class TodoService {
         ExpressionAttributeValues: {
           ":label": item.label,
           ":completed": item.completed,
-          ":updatedAt": item.updatedAt,
+          ":updatedAt": new Date().toISOString(),
         },
         ReturnValues: "ALL_NEW",
       })
