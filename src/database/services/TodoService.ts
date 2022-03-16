@@ -27,11 +27,13 @@ class TodoService {
   }
 
   async getAllTodos(): Promise<Todo[]> {
-    const todos = await this.docClient.scan({
-      TableName: this.tableName,
-    }).promise();
+    const todos = await this.docClient
+      .scan({
+        TableName: this.tableName,
+      })
+      .promise();
 
-    return todos.Items as Todo[]
+    return todos.Items as Todo[];
   }
 
   async updateTodo(id: string, item: Partial<Todo>): Promise<Todo> {
@@ -64,3 +66,5 @@ class TodoService {
       .promise();
   }
 }
+
+export default TodoService;
