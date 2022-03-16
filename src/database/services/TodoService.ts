@@ -14,13 +14,36 @@ class TodoService {
   }
 
   async getTodo(id: string): Promise<Todo> {
-      const result = await this.docClient.get({
-          TableName: this.tableName,
-          Key: {
-              id
-          }
-      }).promise();
+    const result = await this.docClient
+      .get({
+        TableName: this.tableName,
+        Key: {
+          id,
+        },
+      })
+      .promise();
 
-      return result.Item as Todo
+    return result.Item as Todo;
+  }
+
+  async updateTodo(id: string, item: Partial<Todo>): Promise<Todo> {
+    const updated = await this.docClient
+      .update({
+        TableName: this.tableName,
+        Key: { id },
+        UpdateExpression: "set #label = :label, completed = :completed, updatedAt = :updatedAt",
+        ExpressionAttributeNames: {
+          "#label": "label",
+        },
+        ExpressionAttributeValues: {
+          ":label": item.label,
+          ":completed": item.completed,
+          ":updatedAt": item.updatedAt,
+        },
+        ReturnValues: "ALL_NEW",
+      })
+      .promise();
+
+    return updated.Attributes as Todo;
   }
 }
