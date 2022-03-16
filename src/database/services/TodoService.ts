@@ -12,4 +12,15 @@ class TodoService {
       .promise();
     return item;
   }
+
+  async getTodo(id: string): Promise<Todo> {
+      const result = await this.docClient.get({
+          TableName: this.tableName,
+          Key: {
+              id
+          }
+      }).promise();
+
+      return result.Item as Todo
+  }
 }
