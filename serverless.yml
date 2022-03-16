@@ -24,6 +24,17 @@ provider:
   name: aws
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
+  iam: 
+    role:   
+      statements: 
+        - Effect: Allow
+          Action: 
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:DeleteItem
+            - dynamodb:Scan
+          Resource:
+            - Fn::GetAtt: [ TodosTable, Arn ]
 
 # you can overwrite defaults here
 #  stage: dev
@@ -45,18 +56,6 @@ provider:
 #            - "Ref" : "ServerlessDeploymentBucket"
 #            - "/*"
 
-  iam: 
-    role:   
-      statements: 
-        - Effect: Allow
-          Action: 
-            "dynamodb:PutItem"
-            "dynamodb:GetItem"
-            "dynamodb:DeleteItem"
-            "dynamodb:Scan"
-          Resource:
-            - {"Fn::GetAtt": ["TodosTable", {"Arn"}]}
-
 # you can define service wide environment variables here
 #  environment:
 #    variable1: value1
@@ -70,8 +69,37 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  hello:
-    handler: src/handlers.hello
+  createTodo:
+    handler: src/handlers.createTodo
+    events:
+      - httpApi:
+          path: /api/todos
+          method: post
+  getTodo:
+    handler: src/handlers.getTodo
+    events:
+      - httpApi: 
+          path: /api/todos/{id}
+          method: get
+  listTodos:
+    handler: src/handlers.listTodos
+    events:
+      - httpApi: 
+          path: /api/todos
+          method: get
+  updateTodo:
+    handler: src/handlers.updateTodo
+    events:
+      - httpApi: 
+          path: /api/todos/{id}
+          method: put
+  deleteTodo:
+    handler: src/handlers.deleteTodo
+    events:
+      - httpApi: 
+          path: /api/todos/{id}
+          method: delete
+
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
