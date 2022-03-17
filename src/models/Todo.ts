@@ -3,7 +3,7 @@ interface Todo {
     label: string;
     completed: boolean;
     createdAt: string;
-    updatedAt: string;
+    updatedAt?: string;
 };
 
 export default Todo;
