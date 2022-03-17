@@ -9,7 +9,6 @@ class TodoService {
         TableName: this.tableName,
         Item: {
           ...item,
-          createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         },
       })
