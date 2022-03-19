@@ -8,19 +8,18 @@ import * as yup from "yup";
 
 export const handler = async (event: APIGatewayProxyEvent & createTodo): Promise<APIGatewayProxyResult> => {
   try {
-    const { label, completed } = JSON.parse(event.body as string);
+    const reqBody = JSON.parse(event.body as string) || {};
     await yup
       .object()
       .shape({
         label: yup.string().required(),
         completed: yup.bool().required(),
       })
-      .validate(event.body, { abortEarly: false });
+      .validate(reqBody, { abortEarly: false });
 
     const todo = await todoService.createTodo({
       id: v4(),
-      label,
-      completed,
+      ...reqBody,
       createdAt: new Date().toISOString(),
     });
     return jsonResponse(201, todo);
