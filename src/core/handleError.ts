@@ -12,7 +12,11 @@ export default function handleError(error: unknown) {
     return jsonResponse(400, { error: `Invalid request body format: "${error.message}"` });
   }
   if (error instanceof HttpError) {
-    return jsonResponse(error.statusCode, error.message);
+    return {
+      headers: { "Content-Type": "application/json" },
+      statusCode: error.statusCode,
+      body: error.message,
+    };
   }
 
   throw error;
