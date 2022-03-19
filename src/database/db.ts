@@ -5,7 +5,7 @@ const createDynamoDBClient = (): DocumentClient => {
     if(process.env.IS_OFFLINE) {
         return new AWS.DynamoDB.DocumentClient({
           region: "localhost",
-          endpoint: "http://localhost:5000",
+          endpoint: "http://localhost:5200",
         });
     }
 
