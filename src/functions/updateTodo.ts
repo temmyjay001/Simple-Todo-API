@@ -2,7 +2,7 @@ import { APIGatewayProxyResult } from "aws-lambda";
 import { APIGatewayProxyEvent } from "aws-lambda";
 import handleError from "../core/handleError";
 import jsonResponse from "../core/jsonResponse";
-import todoService from "../database/services";
+import todoService from "../services";
 import UpdateTodo from "../dtos/UpdateTodo";
 
 export const handler = async (event: APIGatewayProxyEvent & UpdateTodo): Promise<APIGatewayProxyResult> => {

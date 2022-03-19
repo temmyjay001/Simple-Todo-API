@@ -1,6 +1,6 @@
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
-import HttpError from "../../core/HttpError";
-import Todo from "../../models/Todo";
+import HttpError from "../core/HttpError";
+import Todo from "../models/Todo";
 
 class TodoService {
   constructor(private readonly docClient: DocumentClient, private readonly tableName: string) {}

@@ -1,4 +1,4 @@
-import createDynamoDBClient from "../db";
+import createDynamoDBClient from "../database/db";
 import TodoService from "./TodoService";
 
 // const { TODOS_TABLE } = process.env;

@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from "aws-lambda";
-import todoService from "../database/services";
+import todoService from "../services";
 import createTodo from "../dtos/CreateTodo";
 import jsonResponse from "../core/jsonResponse";
 import handleError from "../core/handleError";
