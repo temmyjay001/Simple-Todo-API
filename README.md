@@ -1,52 +1,83 @@
-# Serverless - AWS Node.js Typescript
+# Serverless - Simple Todo API
 
-Serverless Framework template for zero-config TypeScript support.
+###### In this exercise, i tried not to use any unnecessary library as this is a simple api
 
-## Features
 
-Thanks to [`serverless-typescript`](https://github.com/prisma-labs/serverless-plugin-typescript) plugin:
+## Thoughts
 
-- Zero-config: Works out of the box without the need to install any other compiler or plugins
-- Supports ES2015 syntax + features (`export`, `import`, `async`, `await`, `Promise`, ...)
-- Supports `sls package`, `sls deploy` and `sls deploy function`
-- Supports `sls invoke local` + `--watch` mode
-- Integrates nicely with [`serverless-offline`](https://github.com/dherault/serverless-offline)
 
-## Prerequisites
+Initially, while going through some materials on creating a serverless application, i created this api using a single file.
+
+This file handles all of the function to be invoked. 
+The entire crud operation. 
+
+This approach was changed because the it couples the entire api together which doesn't give room for code reusablity and testabilty
+
+Thereby causing a change in the project structure. 
+
+```
+[`your base directory`]
+├─ .gitignore
+├─ .prettierrc
+├─ package.json
+├─ package-lock.json
+├─ serverless.yml
+├─ src
+│ ├─ core
+│ │ ├─ jsonResponse.ts
+│ │ ├─ handleError.ts
+│ │ └─ HttpError.ts
+│ ├─ database
+│ │ ├─ db.ts
+│ │ └─ services
+│ │ ├─ index.ts
+│ │ └─ postService.ts
+│ ├─ dtos
+│ │ ├─ createTodo.ts
+│ │ └─ updateTodo.ts
+| ├─ services
+│ │ ├─ index.ts
+│ │ └─ TodoService.ts
+│ ├─ functions
+│ │ ├─ createTodo.ts
+│ │ ├─ deleteTodo.ts
+│ │ ├─ getAllTodo.ts
+│ │ ├─ getTodo.ts
+│ │ └─ updateTodo.ts
+│ └─ models
+│ └─ Todo.ts
+└─ tsconfig.json
+```
+
+
+# Features
+
+### Create Todo
+### Read Todo
+### Update Todo
+### Delete Todo
+
+
+# Prerequisites
 
 - [`serverless-framework`](https://github.com/serverless/serverless)
 - [`node.js`](https://nodejs.org)
+- [`Java Runtime Engine (JRE) version 6.x or newer`](https://www.java.com/en/download/)
 
-## Usage
 
-To create new serverless AWS TypeScript project using this template run:
+## Deploy
 
-```bash
-serverless create \
---template-url https://github.com/ttarnowski/serverless-aws-nodejs-typescript/tree/main \
---path myServiceName
-```
+### To Test It Locally
 
-where `myServiceName` should be replaced with the name of your choice.
+* Run ```npm install``` to install all the necessary dependencies.
+* Run ```npm run local``` use serverless offline to test locally. 
 
-Then change directory to the newly created one:
+### Deploy on AWS, simply run:
 
 ```
-cd myServiceName
+$ npm run deploy
+# or
+$ serverless deploy
 ```
 
-And run:
 
-```
-npm install
-```
-
-or:
-
-```
-yarn install
-```
-
-## Licence
-
-MIT.
